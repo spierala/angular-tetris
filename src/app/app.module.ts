@@ -16,11 +16,11 @@ import { PointComponent } from './components/point/point.component';
 import { NextComponent } from './components/next/next.component';
 import { LevelComponent } from './components/level/level.component';
 import { StartLineComponent } from './components/start-line/start-line.component';
-import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { TileComponent } from './components/tile/tile.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { GithubComponent } from './components/github/github.component';
 import { TwitterButtonComponent } from './components/twitter-button/twitter-button.component';
+import { StoreDevtoolsModule } from 'mini-rx-store-ng';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,12 @@ import { TwitterButtonComponent } from './components/twitter-button/twitter-butt
     GithubComponent,
     TwitterButtonComponent,
   ],
-  imports: [BrowserModule, AkitaNgDevtools.forRoot()],
+  imports: [
+    BrowserModule,
+    StoreDevtoolsModule.instrument({
+      name: 'MiniRx Tetris Dev Tools'
+    })
+  ],
   providers: [
     {
       provide: ErrorHandler,

@@ -8,6 +8,6 @@ export class KeyboardService {
   constructor(private _store: KeyboardStore) {}
 
   setKeỵ(keyState: Partial<KeyboardState>) {
-    this._store.update(keyState);
+    this._store.setState(keyState);
   }
 }
