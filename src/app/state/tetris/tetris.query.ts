@@ -1,25 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Query } from '@datorama/akita';
 import { TetrisStore, TetrisState } from './tetris.store';
 import { GameState } from '@trungk18/interface/game-state';
 import { map, delay, switchMap } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class TetrisQuery extends Query<TetrisState> {
-  next$ = this.select('next');
-  matrix$ = this.select('matrix');
-  sound$ = this.select('sound');
-  gameState$ = this.select('gameState');
-  hasCurrent$ = this.select('current').pipe(map((x) => !!x));
-  points$ = this.select('points');
-  clearedLines$ = this.select('clearedLines');
-  initLine$ = this.select('initLine');
-  speed$ = this.select('speed');
-  initSpeed$ = this.select('initSpeed');
-  max$ = this.select('max');
+export class TetrisQuery {
+  next$ = this.store.select(state => state.next);
+  matrix$ = this.store.select(state => state.matrix);
+  sound$ = this.store.select(state => state.sound);
+  gameState$ = this.store.select(state => state.gameState);
+  hasCurrent$ = this.store.select(state => state.current).pipe(map((x) => !!x));
+  points$ = this.store.select(state => state.points);
+  clearedLines$ = this.store.select(state => state.clearedLines);
+  initLine$ = this.store.select(state => state.initLine);
+  speed$ = this.store.select(state => state.speed);
+  initSpeed$ = this.store.select(state => state.initSpeed);
+  max$ = this.store.select(state => state.max);
 
-  isShowLogo$ = combineLatest([this.gameState$, this.select('current')]).pipe(
+  isShowLogo$ = combineLatest([this.gameState$, this.store.select(state => state.current)]).pipe(
     switchMap(([state, current]) => {
       const isLoadingOrOver = state === GameState.Loading || state === GameState.Over;
       const isRenderingLogo$ = of(isLoadingOrOver && !current);
@@ -28,11 +27,11 @@ export class TetrisQuery extends Query<TetrisState> {
   );
 
   constructor(protected store: TetrisStore) {
-    super(store);
+
   }
 
   get raw(): TetrisState {
-    return this.getValue();
+    return this.store.state;
   }
 
   get locked(): boolean {

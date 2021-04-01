@@ -47,7 +47,7 @@ export class TetrisService {
       this._setNext();
     }
     const { initLine, initSpeed } = this._query.raw;
-    this._store.update({
+    this._store.setState({
       points: 0,
       gameState: GameState.Started,
       matrix: MatrixUtil.getStartBoard(initLine),
@@ -69,7 +69,7 @@ export class TetrisService {
       return;
     }
     const { speed } = this._query.raw;
-    this._store.update({
+    this._store.setState({
       locked: false,
       gameState: GameState.Started
     });
@@ -80,7 +80,7 @@ export class TetrisService {
     if (!this._query.isPlaying) {
       return;
     }
-    this._store.update({
+    this._store.setState({
       locked: true,
       gameState: GameState.Paused
     });
@@ -89,7 +89,7 @@ export class TetrisService {
 
   reset() {
     const { sound } = this._query.raw;
-    this._store.update({
+    this._store.setState({
       ...createInitialState(this._pieceFactory),
       sound
     });
@@ -158,7 +158,7 @@ export class TetrisService {
 
   setSound() {
     const sound = this._query.raw.sound;
-    this._store.update({
+    this._store.setState({
       sound: !sound
     });
   }
@@ -166,7 +166,7 @@ export class TetrisService {
   decreaseLevel() {
     const { initSpeed } = this._query.raw;
     const newSpeed = (initSpeed - 1 < 1 ? 6 : initSpeed - 1) as Speed;
-    this._store.update({
+    this._store.setState({
       initSpeed: newSpeed
     });
   }
@@ -174,7 +174,7 @@ export class TetrisService {
   increaseLevel() {
     const { initSpeed } = this._query.raw;
     const newSpeed = (initSpeed + 1 > 6 ? 1 : initSpeed + 1) as Speed;
-    this._store.update({
+    this._store.setState({
       initSpeed: newSpeed
     });
   }
@@ -182,7 +182,7 @@ export class TetrisService {
   increaseStartLine() {
     const { initLine } = this._query.raw;
     const startLine = initLine + 1 > 10 ? 1 : initLine + 1;
-    this._store.update({
+    this._store.setState({
       initLine: startLine
     });
   }
@@ -190,7 +190,7 @@ export class TetrisService {
   decreaseStartLine() {
     const { initLine } = this._query.raw;
     const startLine = initLine - 1 < 1 ? 10 : initLine - 1;
-    this._store.update({
+    this._store.setState({
       initLine: startLine
     });
   }
@@ -255,7 +255,7 @@ export class TetrisService {
     const { points, max, sound } = this._query.raw;
     const maxPoint = Math.max(points, max);
     LocalStorageService.setMaxPoint(maxPoint);
-    this._store.update({
+    this._store.setState({
       ...createInitialState(this._pieceFactory),
       max: maxPoint,
       gameState: GameState.Over,
@@ -329,7 +329,7 @@ export class TetrisService {
     const newPoints = this._getPoints(numberOfClearedLines, points);
     const newSpeed = this._getSpeed(newLines, initSpeed);
 
-    this._store.update({
+    this._store.setState({
       points: newPoints,
       clearedLines: newLines,
       speed: newSpeed
@@ -361,25 +361,25 @@ export class TetrisService {
   }
 
   private _setNext() {
-    this._store.update({
+    this._store.setState({
       next: this._pieceFactory.getRandomPiece()
     });
   }
 
   private _setCurrentPiece(piece: Piece) {
-    this._store.update({
+    this._store.setState({
       current: piece
     });
   }
 
   private _setMatrix(matrix: Tile[]) {
-    this._store.update({
+    this._store.setState({
       matrix
     });
   }
 
   private _setLocked(locked: boolean) {
-    this._store.update({
+    this._store.setState({
       locked
     });
   }

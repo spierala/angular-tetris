@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Store, StoreConfig } from '@datorama/akita';
 import { TetrisKeyboard } from '@trungk18/interface/keyboard';
+import { FeatureStore } from 'mini-rx-store';
 
 export interface KeyboardState {
   up: boolean;
@@ -25,9 +25,8 @@ export const createInitialState = (): KeyboardState => ({
 });
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: 'AngularTetrisKeyboard' })
-export class KeyboardStore extends Store<KeyboardState> {
+export class KeyboardStore extends FeatureStore<KeyboardState> {
   constructor() {
-    super(createInitialState());
+    super('AngularTetrisKeyboard', createInitialState());
   }
 }
