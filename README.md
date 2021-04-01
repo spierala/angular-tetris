@@ -1,4 +1,4 @@
-# Angular Tetris
+# Angular Tetris (Refactored to [MiniRx Store](https://github.com/spierala/mini-rx-store) - The RxJS Redux Store)
 
 A childhood memory Tetris game built with Angular 10 and Akita.
 
